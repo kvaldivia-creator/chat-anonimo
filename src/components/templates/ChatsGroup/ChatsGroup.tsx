@@ -1,6 +1,6 @@
 import { ChangeEvent, ChangeEventHandler, useState } from "react"
 import styled from "styled-components"
-import { addChat, addUserToChat, chatI, findAllGroupChats, findUserInChat } from "../../../services/chat"
+import { addChat, addUserToChat, findAllGroupChats, findUserInChat } from "../../../services/chat"
 import { getUser } from "../../../services/user"
 import Button from "../../atomos/Button"
 import ChatCard from "../../atomos/ChatCard"
@@ -43,12 +43,17 @@ const ui = {
   ModalContainer: styled.div`
     max-width: 500px;
     margin: auto;
+  `,
+  TextData: styled.p`
+    text-align: center;
+    margin: 0;
+    padding-top: 30px;
   `
 }
 
 const ChatsGroup = () => {  
   const [activeModal, setActiveModal] = useState(false)
-  const [valueCategory, setValueCategory] = useState<string>('')
+  const [valueCategory, setValueCategory] = useState<any>()
   
   const chats = findAllGroupChats()
 
@@ -57,7 +62,7 @@ const ChatsGroup = () => {
   }
 
   const handleCreate = () => {
-    if (valueCategory !== '' && typeof valueCategory !== 'string') {
+    if (valueCategory !== '') {
         const uuidChat = addChat('grupal', valueCategory)
         addUserToChat(uuidChat, getUser().id)
         window.location.href = "/chat/" + uuidChat
@@ -71,7 +76,7 @@ const ChatsGroup = () => {
         <ui.ChatsGroupContainer>
           {
             chats 
-              ? chats.map((chat: chatI) => {
+              ? chats.map((chat: any) => {
                 function onClick(idChat: string) {
                   if (!findUserInChat(idChat, getUser().id)) {
                     addUserToChat(idChat, getUser().id);
@@ -84,7 +89,7 @@ const ChatsGroup = () => {
                   <ChatCard src={avatarGroup} textMessage='Grupo' key={chat.id} onClick={() => onClick(chat.id)} userName={chat.category} />
                 )
               })
-              : <p>No hay chats disponibles.</p>
+              : <ui.TextData>No hay grupos disponibles, crea uno.</ui.TextData>
           }
           <Button onClick={() => setActiveModal(true)} classForButton="button-circle">
             <Icon style={{size: '24', color: '#ffffff'}} type='users-group' />

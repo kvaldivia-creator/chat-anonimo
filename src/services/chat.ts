@@ -100,7 +100,7 @@ const findChat = (idFriend: string, idUser: string) =>{
 const findChatsOfUser = (idUser: string, tipo = 'unoauno') => {
     const chats = getChats()
 
-    let tmpchats: [] = []
+    let tmpchats: string[] = []
     if(!chats){
         return null
     }
@@ -119,7 +119,7 @@ const findChatsOfUser = (idUser: string, tipo = 'unoauno') => {
 const findAllGroupChats = () => {
     const chats = getChats()
 
-    let tmpchats: [] = []
+    let tmpchats: string[] = []
     if(!chats){
         return null
     }
